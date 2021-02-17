@@ -8,7 +8,7 @@ with open('README.md', 'r') as fh:
 setup(
     name='fpgaopenflow',
     version=openflow.__version__,
-    description='a Python library, and a CLI utility, which solves HDL-to-bitstream based on FOSS',
+    description='a Python library, and CLI utilities, which solves HDL-to-bitstream based on FOSS',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Rodrigo A. Melo',
@@ -18,7 +18,9 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'openflow = openflow.openflow:main'
+            'openflow_syn = openflow.helpers.synthesis:main',
+            'openflow_imp = openflow.helpers.implementation:main',
+            'openflow_bit = openflow.helpers.bitstream:main'
         ],
     },
     classifiers=[
