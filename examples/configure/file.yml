@@ -1,0 +1,15 @@
+engine:
+  name: example
+  volumes:
+    - "path1:path2"
+    - "path3:path4"
+  work: .
+  options: global-option
+tools:
+  example1:
+    name: alt-example1
+    container: hdlc/example1
+  example2:
+    name: alt-example2
+    container: hdlc/example2
+    options: local-option

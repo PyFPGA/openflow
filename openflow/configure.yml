@@ -1,0 +1,35 @@
+engine:
+  name: docker
+  volumes:
+    - "$HOME:$HOME"
+  work: $PWD
+tools:
+  ecppack:
+    name:      ecppack
+    container: hdlc/prjtrellis
+  ghdl:
+    name:      ghdl
+    container: hdlc/ghdl:yosys
+  icepack:
+    name:      icepack
+    container: hdlc/icestorm
+  iceprog:
+    name:      iceprog
+    container: hdlc/icestorm
+  icetime:
+    name:      icetime
+    container: hdlc/icestorm
+  nextpnr-ecp5:
+    name:      nextpnr-ecp5
+    container: hdlc/nextpnr:ecp5
+  nextpnr-ice40:
+    name:      nextpnr-ice40
+    container: hdlc/nextpnr:ice40
+  openocd:
+    name:      openocd
+    container: hdlc/prog
+    options:   "--device /dev/bus/usb"
+  yosys:
+    name:      yosys
+    container: hdlc/ghdl:yosys
+    options:   "--device /dev/bus/usb"

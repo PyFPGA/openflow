@@ -28,6 +28,51 @@ class Openflow:
         """Class constructor."""
         self.name = name
         self.part = get_part(part)
+        self.set_oci()
+        self.set_tools()
+
+    def set_oci(self):
+        """Set the OCI engine."""
+        self.oci = {
+            'engine': 'docker',
+            'volumes': ['$HOME:$HOME'],
+            'work': '$PWD',
+            'containers': {
+                'ghdl': 'hdlc/ghdl:yosys',
+                'yosys': 'hdlc/ghdl:yosys',
+                'nextpnr-ice40': 'hdlc/nextpnr:ice40',
+                'icetime': 'hdlc/icestorm',
+                'icepack': 'hdlc/icestorm',
+                'iceprog': 'hdlc/icestorm',
+                'nextpnr-ecp5': 'hdlc/nextpnr:ecp5',
+                'ecppack': 'hdlc/prjtrellis',
+                'openocd': 'hdlc/prog'
+            },
+            'tools': {
+                'ghdl': 'ghdl',
+                'yosys': 'yosys',
+                'nextpnr-ice40': 'nextpnr-ice40',
+                'icetime': 'icetime',
+                'icepack': 'icepack',
+                'iceprog': 'iceprog',
+                'nextpnr-ecp5': 'nextpnr-ecp5',
+                'ecppack': 'ecppack',
+                'openocd': 'openocd'
+            }
+        }
+
+    def set_tools(self):
+        """Set the underlying tools."""
+        # Check if oci['engine'] is available
+        engine = self.oci['engine']
+        volumes = '-v ' + ('-v ').join(self.oci['volumes'])
+        work = '-w ' + self.oci['work']
+        command = '{} run --rm {} {}'.format(engine, volumes, work)
+        self.tools = {}
+        for tool in self.oci['tools']:
+            self.tools[tool] = '{} {} {}'.format(
+                command, self.oci['containers'][tool], self.oci['tools'][tool]
+            )
 
     # pylint: disable=too-many-arguments
     def synthesis(
