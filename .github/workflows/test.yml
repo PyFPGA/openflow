@@ -27,4 +27,6 @@ jobs:
         pylint -s n openflow
         git diff --check --cached
     - name: Test
-      run: pytest test
+      run: |
+        pytest test
+        make -C examples/configure

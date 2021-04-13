@@ -1,10 +1,11 @@
 #!/usr/bin/make
 
 check: 
-	pycodestyle openflow
-	pylint -s n openflow
+	pycodestyle openflow examples
+	pylint -s n openflow examples
 	git diff --check --cached
 	pytest test
+	make -C examples/configure
 
 clean:
 	py3clean .

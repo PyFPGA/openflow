@@ -1,13 +1,15 @@
+import re
 from setuptools import setup, find_packages
 
-import openflow
+with open('openflow/__init__.py', 'r') as f:
+    version = re.search(r"__version__ = '([\d\.]*)'", f.read()).group(1)
 
-with open('README.md', 'r') as fh:
-    long_description = fh.read()
+with open('README.md', 'r') as f:
+    long_description = f.read()
 
 setup(
     name='fpgaopenflow',
-    version=openflow.__version__,
+    version=version,
     description='a Python library, and CLI utilities, which solves HDL-to-bitstream based on FOSS',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -16,11 +18,13 @@ setup(
     license='GPLv3',
     url='https://github.com/PyFPGA/openflow',
     packages=find_packages(),
+    package_data={'': ['configure.yml']},
     entry_points={
         'console_scripts': [
             'openflow_syn = openflow.helpers.synthesis:main',
             'openflow_imp = openflow.helpers.implementation:main',
-            'openflow_bit = openflow.helpers.bitstream:main'
+            'openflow_bit = openflow.helpers.bitstream:main',
+            'openflow_cfg = openflow.helpers.configure:main'
         ],
     },
     classifiers=[
@@ -36,5 +40,7 @@ setup(
         'Topic :: Utilities',
         'Topic :: Software Development :: Build Tools',
         "Topic :: Scientific/Engineering :: Electronic Design Automation (EDA)"
-    ]
+    ],
+    install_requires=['pyyaml'],
+    python_requires=">=3.5, <4"
 )
